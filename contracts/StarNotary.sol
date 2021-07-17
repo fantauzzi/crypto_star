@@ -1,4 +1,5 @@
-pragma solidity >=0.4.24;
+// SPDX-License-Identifier: GPL-3
+pragma solidity ^0.8.6;
 
 //Importing openzeppelin-solidity ERC-721 implemented Standard
 import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
@@ -21,6 +22,7 @@ contract StarNotary is ERC721 {
     // mapping the TokenId and price
     mapping(uint256 => uint256) public starsForSale;
 
+    constructor (string memory name_, string memory symbol_) ERC721 (name_, symbol_) {}
     
     // Create Star using the Struct
     function createStar(string memory _name, uint256 _tokenId) public { // Passing the name and tokenId as a parameters
@@ -38,7 +40,8 @@ contract StarNotary is ERC721 {
 
     // Function that allows you to convert an address into a payable address
     function _make_payable(address x) internal pure returns (address payable) {
-        return address(uint160(x));
+        // return address(uint160(x));
+        return payable(address(uint160(x)));
     }
 
     function buyStar(uint256 _tokenId) public  payable {
@@ -46,11 +49,13 @@ contract StarNotary is ERC721 {
         uint256 starCost = starsForSale[_tokenId];
         address ownerAddress = ownerOf(_tokenId);
         require(msg.value > starCost, "You need to have enough Ether");
-        _transferFrom(ownerAddress, msg.sender, _tokenId); // We can't use _addTokenTo or_removeTokenFrom functions, now we have to use _transferFrom
+        // _transferFrom(ownerAddress, msg.sender, _tokenId); // We can't use _addTokenTo or_removeTokenFrom functions, now we have to use _transferFrom
+        _transfer(ownerAddress, msg.sender, _tokenId);
         address payable ownerAddressPayable = _make_payable(ownerAddress); // We need to make this conversion to be able to use transfer() function to transfer ethers
         ownerAddressPayable.transfer(starCost);
         if(msg.value > starCost) {
-            msg.sender.transfer(msg.value - starCost);
+            // msg.sender.transfer(msg.value - starCost);
+            _make_payable(msg.sender).transfer(msg.value - starCost);
         }
     }
 
