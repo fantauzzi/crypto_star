@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "openzeppelin-solidity": "^4.2.0"
+  },
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.12"
   }
 }
