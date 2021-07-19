@@ -11,6 +11,8 @@ A simple Dapp to experiment with Solidity contracts, their automated unit-testin
 - OpenZeppelin v4.2.0
 - solc 0.8.6
 
+Note: before deployment to Rinkeby, you need to create a new file named `.secret` in the root of the repo, and write the text of the seed (secret recovery phrase, in Metamask) in it.
+
 ## Dependencies
 
 - Truffle v5
@@ -47,7 +49,7 @@ npm run dev
 - Go to the link indicated in the output of `npm`, should be [http://localhost:8080/](http://localhost:8080/)
 
 ## Deployment to the Rinkeby Test Network via Infura
-- In the root of the repo, create a file named `.secret`, containing the private (secret) key to be used for deployment to Rinkeby. **Ensure the related account has enough funds to pay for the deployment**.
+- In the root of the repo, create a file named `.secret`, containing the seed (secret recovery phrase, in Metamask) that generated the private key to be used for deployment to Rinkeby. **Ensure the related account has enough funds to pay for the deployment**.
 - From a shell, again in the root of the repo, run `truffle` to compile the contracts and migrate them.
 
 ```bash
