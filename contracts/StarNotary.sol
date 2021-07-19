@@ -29,7 +29,7 @@ contract StarNotary is ERC721 {
         // Check for empty string
         bytes memory name_as_bytes = bytes(_name); 
         require(name_as_bytes.length > 0, "Can't create Star with empty name");
-        
+
         Star memory newStar = Star(_name); // Star is an struct so we are creating a new Star
         tokenIdToStarInfo[_tokenId] = newStar; // Creating in memory the Star -> tokenId mapping
         _mint(msg.sender, _tokenId); // _mint assign the the star with _tokenId to the sender address (ownership)
@@ -70,7 +70,6 @@ contract StarNotary is ERC721 {
         return star.name;
     }
 
-    // Implement Task 1 Exchange Stars function TODO implement a putUpforSwap() and careful with the interactions with putUpForSale()
     function exchangeStars(uint256 _tokenId1, uint256 _tokenId2) public {
         //1. Passing to star tokenId you will need to check if the owner of _tokenId1 or _tokenId2 is the sender
         //2. You don't have to check for the price of the token (star)
