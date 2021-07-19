@@ -21,9 +21,6 @@
 // const HDWallet = require('truffle-hdwallet-provider');
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const infuraProjectID = "4b168c6bd07d4b56ad6e73161164573a";
-// const mnemonic = "vehicle mask blush crew library garden occur duty plunge moon suit subject";  // This comes from Ganache
-// const mnemonic = ""
-//
 const fs = require('fs');
 const secret = [fs.readFileSync(".secret").toString().trim()];
 
