@@ -17,17 +17,19 @@ contract StarNotary is ERC721 {
     // symbol: Is a short string like 'USD' -> 'American Dollar'
     
 
-    // mapping the Star with the Owner Address <== TODO delete this wrong comment
     // mapping the Star ID to the Star info
     mapping(uint256 => Star) public tokenIdToStarInfo;
-    // mapping the TokenId and price
+    // mapping the TokenId to its price (if it is up for sale)
     mapping(uint256 => uint256) public starsForSale;
 
     constructor (string memory name_, string memory symbol_) ERC721 (name_, symbol_) {}
     
     // Create Star using the Struct
-    // TODO Don't allow creation of a Star with empty name, in case, throw an error
     function createStar(string memory _name, uint256 _tokenId) public { // Passing the name and tokenId as a parameters
+        // Check for empty string
+        bytes memory name_as_bytes = bytes(_name); 
+        require(name_as_bytes.length > 0, "Can't create Star with empty name");
+        
         Star memory newStar = Star(_name); // Star is an struct so we are creating a new Star
         tokenIdToStarInfo[_tokenId] = newStar; // Creating in memory the Star -> tokenId mapping
         _mint(msg.sender, _tokenId); // _mint assign the the star with _tokenId to the sender address (ownership)
@@ -75,6 +77,7 @@ contract StarNotary is ERC721 {
         //3. Get the owner of the two tokens (ownerOf(_tokenId1), ownerOf(_tokenId1)
         address owner1 = ownerOf(_tokenId1);
         address owner2 = ownerOf(_tokenId2);
+        require(owner1 == msg.sender || owner2 == msg.sender, "Must be the owner of either Star to exchange them");
         //4. Use _transferFrom function to exchange the tokens.
         _transfer(owner1, owner2, _tokenId1);
         _transfer(owner2, owner1, _tokenId2);
